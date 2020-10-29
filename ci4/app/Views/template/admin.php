@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Layout</title>
+    <link rel="stylesheet" href="<?= base_url('/bootstrap/css/bootstrap.min.css')?>" >
+    <title>Admin Page</title>
 </head>
 <body>
-    
-<nav>
 
-<ul>
-    <a href="<?= base_url() ?>/Admin/kategori"><li>Select</li></a>
-    <a href="<?= base_url() ?>/Admin/kategori/form"><li>Insert</li></a>
-    <a href="<?= base_url() ?>/Admin/kategori/update/5"><li>Update</li></a>
-</ul>
-
+<div class="container">
+<div class="row">
+    <div class="col">
+    <nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="<?= base_url('/Admin') ?>">Admin Page</a>
 </nav>
+    </div>
+</div>
+  <div class="row">
+    <div class="col-4"><div class="card" style="width: 18rem;">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><a href="<?= base_url('/Admin/kategori') ?>">Kategori</a></li>
+    <li class="list-group-item"><a href="<?= base_url('/Admin/menu') ?>">Menu</a></li>
+    <li class="list-group-item"><a href="<?= base_url('/Admin/user') ?>">User</a></li>
+  </ul>
+</div></div>
+    <div class="col-8">
+    <?= $this->renderSection('content') ?>
+    </div>
+  </div>
+</div>
+    
 
-<?= $this->renderSection('content') ?>
+
 
 </body>
 </html>
+

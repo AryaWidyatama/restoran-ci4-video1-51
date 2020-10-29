@@ -12,49 +12,75 @@ class kategori extends BaseController
 		echo "belajar";
 	}
 
-	public function select()
+	public function read()
 	{
 
+		$pager = \Config\Services::pager();
 		$model = new kategori_M();
-		$kategori = $model ->findALL();
-
+		
 		$data = [
-			'judul' => 'SELECT DATA DARI controller',
-			'kategori' => $kategori
+			'judul' => 'DATA KATEGORI',
+		
+			'kategori' => $model->paginate(3,'group1'),
+            'pager' => $model->pager
 		];
 
-		
 		return view("kategori/select",$data);
 		
 	}
 
-	public function selectWhere($id = null)
-	{
-		echo "<h1>menampilkan data yang dipilih $id</h1>";
-	}
-
-	public function formInsert()
+	public function create()
 	{
 		
-		return view("kategori/forminsert");
+		return view("kategori/insert");
 		
 	}
 
-	public function formUpdate($id = null)
+	public function insert()
 	{
-		echo view("template/header");
-		echo view("kategori/update");
-		echo view("template/footer");
+	
+		$model = new kategori_M();
+
+		if ($model-> insert($_POST)===false) {
+			$error = $model->errors();
+			session()->setFlashdata('info', $error['kategori']);
+			return redirect()->to(base_url("/Admin/kategori/create"));
+		} else {
+			return redirect()->to(base_url("/Admin/kategori"));
+		}
+		
+		
+
+		
 	}
 
-	public function update($id = null)
+	public function find($id = null)
 	{
-		echo "proses update data";
+		$model = new kategori_M();
+		$kategori = $model ->find($id);
+
+		$data = [
+			'judul' => 'UPDATE DATA ',
+			'kategori' => $kategori
+		];
+		return view("kategori/update",$data);
+	}
+
+	public function update()
+	{
+		
+		$model = new kategori_M();
+		$model->save($_POST);
+		return redirect()->to(base_url("/Admin/kategori"));
 	}
 
 	public function delete($id = null)
 	{
-		echo "proses delete data";
+		$model = new kategori_M();
+		$model-> delete($id);
+		return redirect()->to(base_url("/Admin/kategori"));
+
+		
 	}
 
 	
