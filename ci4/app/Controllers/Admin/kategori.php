@@ -21,7 +21,7 @@ class kategori extends BaseController
 		$data = [
 			'judul' => 'DATA KATEGORI',
 		
-			'kategori' => $model->paginate(3,'group1'),
+			'kategori' => $model->paginate(3,'page'),
             'pager' => $model->pager
 		];
 
@@ -70,8 +70,16 @@ class kategori extends BaseController
 	{
 		
 		$model = new kategori_M();
-		$model->save($_POST);
-		return redirect()->to(base_url("/Admin/kategori"));
+		$id = $_POST['idkategori'];
+		
+
+		if ($model->save($_POST)===false) {
+			$error = $model->errors();
+			session()->setFlashdata('info', $error['kategori']);
+			return redirect()->to(base_url("/Admin/kategori/find/$id"));
+		} else {
+			return redirect()->to(base_url("/Admin/kategori"));
+		}
 	}
 
 	public function delete($id = null)
